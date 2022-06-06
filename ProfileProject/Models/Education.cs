@@ -11,5 +11,6 @@ namespace ProfileProject.Models
         public int UserId {get; set;}
 
         public string MyEducation  {get; set;} = default!;
+        public string Description {get; set;} = default!;
     }
 }

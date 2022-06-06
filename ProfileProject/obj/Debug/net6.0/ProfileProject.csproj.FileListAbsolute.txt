@@ -33,3 +33,5 @@ C:\Users\soulo\Documents\demos\ProfileProject\obj\Debug\net6.0\refint\ProfilePro
 C:\Users\soulo\Documents\demos\ProfileProject\obj\Debug\net6.0\ProfileProject.pdb
 C:\Users\soulo\Documents\demos\ProfileProject\obj\Debug\net6.0\ProfileProject.genruntimeconfig.cache
 C:\Users\soulo\Documents\demos\ProfileProject\obj\Debug\net6.0\ref\ProfileProject.dll
+C:\Users\soulo\Documents\demos\ProfileProject\bin\Debug\net6.0\StringLibraryTest\obj\project.assets.json
+C:\Users\soulo\Documents\demos\ProfileProject\bin\Debug\net6.0\StringLibraryTest\obj\StringLibraryTest.csproj.nuget.dgspec.json

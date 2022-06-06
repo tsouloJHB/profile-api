@@ -13,103 +13,76 @@ namespace ProfileProject.Controllers
     [ApiController]
     public class ProfileController :  ControllerBase
     {
-               private readonly ProfileDbContext _context;  
-               public ProfileController(ProfileDbContext context) => _context = context;
+        private readonly ProfileDbContext _context;  
+        private readonly ILogger<ProfileController> _logger;
+        public ProfileController(ProfileDbContext context,ILogger<ProfileController> logger) {
+            this._context = context;
+            this._logger = logger;
+        }
+        
 
         [HttpGet]
         public async Task<IEnumerable<Profile>> GetProfile(){
-            var list1 = await _context.Educations.ToListAsync();
             List<Users> value = await _context.users.ToListAsync();
             List<Education> educations = await _context.Educations.ToListAsync();
+            List<Experience> experience = await _context.Experiences.ToListAsync();
+            List<Skills> skill = await _context.Skills.ToListAsync();
+            List<Projects> project = await _context.Projects.ToListAsync(); 
             List<About> about = await _context.Abouts.ToListAsync();
-             List<Profile> li = new  List<Profile>();
+            List<Profile> li = new  List<Profile>();
             foreach(var item in value ){
-                //Console.WriteLine(item.name);
-
+                
+                //get user profile
                 Profile profiler = new Profile();
-                //Console.WriteLine(item.name);
                 profiler.name = item.name;
                 profiler.surname = item.surname;
 
-                foreach(var edu in educations){
+                foreach(var edu in educations ){
                     if(edu.UserId == item.id){
                         profiler.MyEducation = edu.MyEducation;
                     }
                 }
                 foreach(var edu in about){
                     if(edu.UserId == item.id){
-                        profiler.MyEducation = edu.about;
+                        profiler.about = edu.about;
                     }
                 }
-                li.Add(profiler);
-            //  var result = (from a in _context.users
+                li.Add(profiler);  
+            }
+                
+            // var  results = (from a in _context.Abouts
+            //     join b in _context.Educations on a.UserId-1 equals b.UserId 
+            //     join c in _context.Experiences on a.UserId-1 equals c.UserId
+            //     join d in _context.Projects on a.UserId-1 equals d.UserId
+            //     join e in _context.users on a.UserId-1 equals e.id
+            //     join f in _context.Skills on a.UserId-1 equals f.UserId
             //     select new {
-            //         name = a.name,
-            //         surname = a.surname
+            //         about = a.about,
+            //         education = b.MyEducation,
+            //         experience = c.MyExperience,
+            //         projects = d.MyProjects,
+            //         cell = e.cell,
+            //         name = e.name,
+            //         surname = e.surname,
+            //         email = e.email,
+            //         occupation = e.currentOccupation,
+            //         id = e.id 
             //     } );
-            // foreach(var ls in result){
-            //     Console.WriteLine(ls);
-            // }    
-             //li.Add(result);   
-            }
-
-            foreach(var lit in li){
-                
-                Console.WriteLine(lit.name);
-            }
-            
-
-            //  var  result =  (from a in _context.users
-         
-            //     select  new {
-            //         about = a.name,
-            //         id = a.surname,
-         
-                  
-            //     } );
-                
-
-
-            //  List<Profile> profileLists = new List<Profile>();
-            //   Profile profile = new Profile();   
-            //     foreach(var item in result){
+            // Profile profile = new Profile();
+            // List<Profile> profileList = new List<Profile>();   
+            //     foreach(var item in results){
             //         profile.about = item.about;
-            //         profileLists.Add(profile);
-            //     }
-                
-            var  results = (from a in _context.Abouts
-                join b in _context.Educations on a.UserId-1 equals b.UserId 
-                join c in _context.Experiences on a.UserId-1 equals c.UserId
-                join d in _context.Projects on a.UserId-1 equals d.UserId
-                join e in _context.users on a.UserId-1 equals e.id
-                join f in _context.Skills on a.UserId-1 equals f.UserId
-                select new {
-                    about = a.about,
-                    education = b.MyEducation,
-                    experience = c.MyExperience,
-                    projects = d.MyProjects,
-                    cell = e.cell,
-                    name = e.name,
-                    surname = e.surname,
-                    email = e.email,
-                    occupation = e.currentOccupation,
-                    id = e.id 
-                } );
-            Profile profile = new Profile();
-            List<Profile> profileList = new List<Profile>();   
-                foreach(var item in results){
-                    profile.about = item.about;
-                    profile.MyEducation = item.education;
-                    profile.MyExperience = item.experience;
-                    profile.MyProjects = item.projects;
-                    profile.cell = item.cell;
-                    profile.email = item.email;
-                    profile.currentOccupation = item.occupation;
-                    profile.name = item.name;
-                    profile.surname = item.surname;
-                    profile.UserId = item.id;
-                    profileList.Add(profile);
-            }    
+            //         profile.MyEducation = item.education;
+            //         profile.MyExperience = item.experience;
+            //         profile.MyProjects = item.projects;
+            //         profile.cell = item.cell;
+            //         profile.email = item.email;
+            //         profile.currentOccupation = item.occupation;
+            //         profile.name = item.name;
+            //         profile.surname = item.surname;
+            //         profile.UserId = item.id;
+            //         profileList.Add(profile);
+            // }    
             return li; 
 
          }
