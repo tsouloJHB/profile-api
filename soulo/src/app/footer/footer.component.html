@@ -1,0 +1,19 @@
+<footer>
+    <div class="footer-content">
+        <!--add all information -->
+        <div *ngFor="let item of service.profiler">
+            <h3>{{item.name+" "+item.surname}}</h3>
+            <p>{{item.about}}</p>
+        </div>
+        
+        <ul class="socials">
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+         </ul>
+         <p>copyright &copy;2022 <a href="#">ThabangSoulo</a>  </p>
+         
+    </div>
+</footer>

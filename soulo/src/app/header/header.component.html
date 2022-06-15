@@ -1,0 +1,101 @@
+<!-- <section class="intro" [ngClass]="{outro: once == false}" >    -->
+<section  [ngClass]="name" >   
+
+    <div [ngClass]="over"></div>	
+
+    <div class="intro-content">
+        <div class="row" *ngFor="let item of service.profiler">
+
+            <div class="col-twelve">
+                
+                <h5>Hello, World</h5>
+                <h1>I'm {{item.name +" "+item.surname}} </h1>
+
+                <p class="intro-position">
+                    <span>{{item.currentOccupation}}</span>
+                </p>
+
+                <a class="button stroke smoothscroll" href="#about" title="">More About Me</a>
+
+            </div>  
+            
+        </div>   		 		
+    </div>
+
+</section>
+<section id="about">  
+
+    <div class="row section-intro" *ngFor="let item of service.profiler" >
+        <div class="col-twelve">
+
+            <h5>About</h5>
+            <h1>Let me introduce myself.</h1>
+
+            <div class="intro-info">
+                <div *ngIf="item.image != ''">
+                    <img src="../../assets/images/me.jpg" alt="Profile Picture">
+                </div>
+                <div *ngIf="item.image == ''">
+                    <img src="../../assets/images/profile-pic.jpg" alt="Profile Picture">
+                </div>
+               
+
+                <p class="lead">{{item.about}}</p>
+            </div>   			
+
+        </div>   		
+    </div> <!-- /section-intro -->
+
+    <div class="row about-content" *ngFor="let item of service.profiler">
+
+        <div class="col-six tab-full">
+
+            <h3>Profile</h3>
+            <p>Personal Info</p>
+
+            <ul class="info-list">
+                <li>
+                    <strong>Fullname:</strong>
+                    <span>{{item.name + " "+ item.surname}}</span>
+                </li>
+                <li>
+                    <strong>Job:</strong>
+                    <span>{{item.currentOccupation}}</span>
+                </li>
+                <li>
+                    <strong>Email:</strong>
+                    <span>{{item.email}}</span>
+                </li>
+                <li>
+                    <strong>Cell:</strong>
+                    <span>0{{item.cell}}</span>
+                </li>
+
+            </ul> <!-- /info-list -->
+
+        </div>
+        
+    
+    
+    <div class="col-six tab-full">
+
+        <h3>Skills</h3>
+        <p>Bellow are my skills</p>
+         <div  >   
+         <ul class="skill-bars"  *ngFor="let item of service.skillList">
+             
+            <li>
+                
+                <strong>{{item}}</strong>
+            </li>
+      
+
+         </ul> <!-- /skill-bars -->		
+         </div>
+    </div>
+    
+   </div>
+   
+   
+
+</section>        
