@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProfileProject.Data
 {
-    public class ProfileDbContext : DbContext
+    public class ProfileDbContext : DbContext , IProfileDbContext
     {
         public ProfileDbContext(DbContextOptions<ProfileDbContext> options) : base(options){
 

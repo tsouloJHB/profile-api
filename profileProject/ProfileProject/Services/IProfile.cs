@@ -6,18 +6,19 @@ public interface IProfile
 {
     void GetAllUsers();
     Task<List<Profile>> GetAllProfiles();
-    Task<List<Profile>> GetProfileByName(string name);
+    Task<Profile> GetProfileByName(string name);
     // Task<List<Profile>> GetProfileById(int id);
     
-    
+    //get data
+    Task<Profile> GetProfileById(int id);
     //create data
-    Users CreateUser(Profile profile);
-    bool CreateEducation(Profile profile,int userId);
-    bool CreateAbout(Profile profile, int userId);
-    bool CreateExperience(Profile profile, int userId);
+    Users  CreateUser(Profile profile);
+    Education CreateEducation(Profile profile);
+    About CreateAbout(Profile profile);
+    Experience CreateExperience(Profile profile);
 
-    bool CreateProject(Profile profile,int userId);
-    bool CreateSkills(Profile profile,int userId);
+    Projects CreateProject(Profile profile);
+    Skills CreateSkills(Profile profile);
     //create objects
     Task<Profile> CreateProfile(Profile profile);
     Users CreateUserObject(Profile profile);
@@ -28,6 +29,7 @@ public interface IProfile
     
     //update database
     Task<bool> UpdateProfile(Profile profile);
+    public int GetUserIdByName(string name);
     
     int GetTableByUserId(int userId, List<Experience> experienceList);
     int GetTableByUserId(int userId, List<Education> educationList);

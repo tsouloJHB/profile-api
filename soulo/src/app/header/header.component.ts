@@ -15,15 +15,7 @@ export class HeaderComponent implements OnInit {
   heroElement = document.querySelector('#intro');
   constructor(service: CoursesService, private route: ActivatedRoute,private router: Router) {
     this.service = service;
-    console.log("im here");
-    console.log(service.profiler);
-    for (const key in service.profiler) {
-      console.log("Hi "+key);
-      if (Object.prototype.hasOwnProperty.call(service.profiler, key)) {
-        const element = service.profiler[key];
-        console.log(element.mySkills);
-      }
-    }
+    
    }
   once:boolean = false;
   name = "intro"
@@ -39,6 +31,7 @@ export class HeaderComponent implements OnInit {
      
    }
   ngOnInit(): void {
+  
     console.log(this.router.url);
     console.log(window.location.pathname)
     this.route.url.subscribe((queryParam) =>{

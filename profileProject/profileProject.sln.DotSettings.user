@@ -1,0 +1,16 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=43155cd1_002Db77a_002D4d94_002Db701_002Dbc841cc43cdb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Get_OnSuccess_InvokesProfileService" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::22ADB520-776A-4E56-A0D2-3284DE94F8A5::net6.0::ProfileProject.UnitTest.Systems.Controllers.TestProfileController.Get_OnSuccess_InvokesProfileService&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e0df9b27_002Da6c7_002D4bf1_002Dbdb7_002D18ef2b4ec337/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Get_OnSuccess_InvokesProfileService #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::22ADB520-776A-4E56-A0D2-3284DE94F8A5::net6.0::ProfileProject.UnitTest.Systems.Controllers.TestProfileController.Get_OnSuccess_InvokesProfileService&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb502b16_002Dab06_002D4cd1_002D9ec1_002Ddc6834f4f4bb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Get_OnSuccess_InvokesProfileService #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::22ADB520-776A-4E56-A0D2-3284DE94F8A5::net6.0::ProfileProject.UnitTest.Systems.Controllers.TestProfileController.Get_OnSuccess_InvokesProfileService&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

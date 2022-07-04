@@ -156,6 +156,14 @@
               "target": "Package",
               "version": "[6.0.0, )"
             },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[6.0.0-preview.4.21253.5, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.5, )"
@@ -170,6 +178,10 @@
               "target": "Package",
               "version": "[6.0.5, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.20.0, )"
+            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[6.0.0, )"
@@ -177,6 +189,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.20.0, )"
             },
             "xunit": {
               "target": "Package",
@@ -187,6 +203,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.4.5, )"
+            },
+            "yashsingh1456": {
+              "target": "Package",
+              "version": "[1.2.0, )"
             }
           },
           "imports": [

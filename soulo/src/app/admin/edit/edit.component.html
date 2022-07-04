@@ -1,0 +1,63 @@
+<div class="container rounded bg-white mt-5 mb-5">
+    <form  #usersForm="ngForm" (ngSubmit)="getUserFromData(usersForm.value)">
+    <div class="row" *ngFor="let item of profiler">
+        
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="../../assets/images/me.jpg"><span class="font-weight-bold">Thabang</span><span class="text-black-50"></span><span> </span></div>
+            <div class="d-flex justify-content-between  "><span class="border px-2 p-1 add-experience"><i class="fa fa-plus"></i>Change Image</span></div>
+
+            <p>Select theme</p>
+            <select name="Themes" id="cars" [(ngModel)]="item.theme" name="theme" >
+                <div *ngIf="item.theme == 'classic'">
+                    <option value="classic" selected >Classic</option>
+                </div>
+                <div *ngIf="item.theme == 'creative'">
+                    <option value="creative" selected >Creative</option>
+                </div>
+                
+                <option value="creative">Creative</option>
+                <option value="classic" >Classic</option>
+               
+              </select>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" [(ngModel)]="item.name" class="form-control" placeholder="first name" value="james" name="name"></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" [(ngModel)]="item.surname" class="form-control" value="{{item.surname}}" placeholder="surname" name="surname"></div>
+                </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" [(ngModel)]="item.cell" class="form-control" placeholder="enter phone number" value="{{item.cell}}" name="cell"></div>
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" [(ngModel)]="item.email" ngModel class="form-control" placeholder="enter email id" value="{{item.email}}" name="email"></div>
+                    <div class="col-md-12"><label class="labels">About</label><textarea rows="5" ngModel type="text" [(ngModel)]="item.about" class="form-control" placeholder="About" value="{{item.about}}" name="about"></textarea></div>
+                    <div class="col-md-12"><label class="labels">Skills</label><input type="text" [(ngModel)]="item.mySkills"  class="form-control" placeholder="skills" value="{{item.mySkills}}" name="mySkills"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Current Occupation</label><input type="text" [(ngModel)]="item.currentOccupation" class="form-control" name="currentOccupation" placeholder="currentOccupation" value="{{item.currentOccupation}}"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Education</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Education</span></div><br>
+                <div class="col-md-12"><label class="labels">Education</label><input type="text"  [(ngModel)]="item.myEducation" class="form-control" name="myEducation" placeholder="experience" value="{{item.myEducation}}"></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" [(ngModel)]="item.myEducationDescription" class="form-control" name="myEducationDescription" placeholder="additional details" value="{{item.myEducationDescription}}"></div>
+                <br>
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div>
+                <div class="col-md-12"><label class="labels">Experience </label><input type="text" [(ngModel)]="item.myExperience" class="form-control" name="myExperience" placeholder="experience" value="{{item.myExperience}}"></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" [(ngModel)]="item.myExperienceDescription" class="form-control" name="myExperienceDescription" placeholder="additional details" value="{{item.myExperienceDescription}}"></div>
+            </div>
+        </div>
+        <input type="submit"  class="btn btn-primary profile-button"  value="submit">
+        <hr>
+    
+    </div>
+    </form>
+</div>
+
+

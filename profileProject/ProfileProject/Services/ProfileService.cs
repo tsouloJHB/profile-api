@@ -20,217 +20,154 @@ public class ProfileService: IProfile
     public async Task<List<Profile>> GetAllProfiles()
     {
          List<Users> value = await _context.users.ToListAsync();
-            List<Education> educations = await _context.Educations.ToListAsync();
-            List<Experience> experience = await _context.Experiences.ToListAsync();
-            List<Skills> skill = await _context.Skills.ToListAsync();
-            List<Projects> project = await _context.Projects.ToListAsync(); 
-            List<About> about = await _context.Abouts.ToListAsync();
-            List<Profile> li = new  List<Profile>();
-            foreach(var item in value ){
-                
-                //get user profile
-                Profile profiler = new Profile();
-                profiler.name = item.name;
-                profiler.surname = item.surname;
-                profiler.email = item.email;
-                profiler.cell = item.cell;
-                
-
-                foreach(var edu in educations ){
-                    if(edu.UserId == item.id){
-                        profiler.MyEducation = edu.MyEducation;
-                    }
-                }
-
-                foreach (var ex in experience)
-                {
-                    if(ex.UserId == item.id)
-                    {
-                        profiler.MyExperience = ex.MyExperience;
-                    }
-                }
-
-                foreach (var pro in project)
-                {
-                    if (pro.UserId == item.id)
-                    {
-                        profiler.MyProjects = pro.MyProjects;
-                    }
-                }
-                foreach (var edu in about.Where(edu => edu.UserId == item.id))
-                {
-                    profiler.MyEducation = edu.about;
-                }
-                foreach(var edu in skill){
-                    if(edu.UserId == item.id){
-                        profiler.MySkills = edu.MySkills;
-                    }
-                }
-                li.Add(profiler);  
-            }  
-            return li;
+         List<Profile> profiles = new List<Profile>();
+         foreach (var item in value)
+         {
+             Profile profile = await GetProfileById(item.Id);
+             profiles.Add(profile);
+         }
+         
+         return profiles;
     }
 
-    public async Task<List<Profile>> GetProfileByName(string name)
+    public async Task<Profile> GetProfileById(int id)
     {
-           var list1 = await _context.Educations.ToListAsync();
-               var  results = (from a in _context.users
-                where a.name == name
-           
-                select new {
-                    id = a.id,
-                    name = a.name,
-                    surname = a.surname,
-             
-                } );
-            Users users =  new Users();
-            foreach(var item in results){
-                users.id = item.id;
-            }
-            var  result = (from a in _context.Abouts where a.Id == users.id
-                join b in _context.Educations on users.id equals b.UserId 
-                join c in _context.Experiences on users.id  equals c.UserId
-                join d in _context.Projects on users.id  equals d.UserId
-                join e in _context.users on users.id  equals e.id
-                join f in _context.Skills on users.id  equals f.UserId
-                select new {
-                    about = a.about,
-                    education = b.MyEducation,
-                    educationDesription = b.Description,
-                    experienceDescription = c.Description,
-                    experience = c.MyExperience,
-                    projects = d.MyProjects,
-                    skill = f.MySkills,
-                    e.cell,
-                    name = e.name,
-                    surname = e.surname,
-                    email = e.email,
-                    occupation = e.currentOccupation,
-                    id = e.id,
-                    image = e.image, 
-                } );
-            Profile profile = new Profile();
-            List<Profile> profileList = new List<Profile>();   
-                foreach(var item in result){
-                    profile.about = item.about;
-                    profile.MyEducation = item.education;
-                    profile.MyEducationDescription = item.educationDesription;
-                    profile.MyExperience = item.experience;
-                    profile.MyExperienceDescription = item.experienceDescription;
-                    profile.MyProjects = item.projects;
-                    profile.MySkills = item.skill;
-                    profile.cell = item.cell;
-                    profile.email = item.email;
-                    profile.currentOccupation = item.occupation;
-                    profile.name = item.name;
-                    profile.surname = item.surname;
-                    profile.UserId = item.id;
-                    profile.image = item.image;
-                    profileList.Add(profile);
-            }
-                return profileList;
+        Profile profile = new Profile();
+        var education = await _context.Educations.FindAsync(id);
+        profile.MyEducation = education.MyEducation;
+        profile.MyEducationDescription = education.Description;
+        //experience
+        var experience = await _context.Experiences.FindAsync(id);
+        profile.MyExperience = experience.MyExperience;
+        profile.MyExperienceDescription = experience.Description;
+        //skills
+        var skills = await _context.Skills.FindAsync(id);
+        profile.MySkills = skills.MySkills;
+        //projects
+        var projects = await _context.Projects.FindAsync(id);
+        profile.MyProjects = projects.MyProjects;
+        profile.MyProjectsDescription = projects.Description;
+        //user
+        var user = await _context.users.FindAsync(id);
+        profile.name = user.name;
+        profile.surname = user.surname;
+        profile.email = user.email;
+        profile.cell = user.cell;
+        profile.image = user.image;
+        profile.UserId = user.Id;
+        profile.Theme = user.Theme;
+        profile.currentOccupation = user.currentOccupation;
+        //about
+        var about = await _context.Abouts.FindAsync(id);
+        profile.about = about.about;
+        
+        return profile;
     }
 
-  
+    public int GetUserIdByName(string name) {
+        var  results = (from a in _context.users
+            where a.name == name
+            select new {
+                id = a.Id,
+            } );
+       return results.First().id;
+    }
 
+    public async Task<Profile> GetProfileByName(string name)
+    {
+        Profile profile = new Profile();
+        int id =  GetUserIdByName(name);
+        profile = await GetProfileById(id);
+        return profile;
+    }
+    
     public async Task<Profile> CreateProfile(Profile profile)
     {
-
+    
         Users users = CreateUser(profile);
-        bool educationResponse = CreateEducation(profile, users.id);
-        bool aboutResponse = CreateAbout(profile, users.id);
-        bool experienceResponse = CreateExperience(profile, users.id);
-        bool projectResponse = CreateProject(profile, users.id);
-        bool skillsResponse = CreateSkills(profile, users.id);
+        await _context.AddAsync(users);
         await _context.SaveChangesAsync();
+        profile.UserId = users.Id;
+        await _context.Educations.AddAsync( CreateEducation(profile));
+       
+        await _context.Abouts.AddAsync( CreateAbout(profile));
+        await _context.Experiences.AddAsync( CreateExperience(profile));
+        await _context.Skills.AddAsync( CreateSkills(profile));
+        await _context.Projects.AddAsync( CreateProject(profile));
+        await _context.SaveChangesAsync();
+      
         return profile;
     }
 
     public async Task<bool> UpdateProfile(Profile profile) {
-            Users users = new Users();
-            users.name = profile.name;
-            users.surname = profile.surname;
-            users.cell = profile.cell;
-            users.currentOccupation = profile.currentOccupation;
-            users.email = profile.email;
-            users.id = profile.UserId;
-            users.image = profile.image;
+             Users users = new Users();
+             users = CreateUser(profile);
             _context.Entry(users).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            
-            // create Education 
-            var list1 = await _context.Educations.ToListAsync();
-            int educationId =  GetTableByUserId(profile.UserId,list1);
-            foreach (var item in list1)
-            {
-                if (item.Id == educationId)
-                {
-                    item.UserId = profile.UserId;
-                    item.MyEducation = profile.MyEducation;
-                    item.Description = profile.MyEducationDescription;
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }   
-            }
-            
-            //create experience
-            var list2 = await _context.Experiences.ToListAsync();
-            int experienceId =  GetTableByUserId(profile.UserId,list2);
-            foreach (var item in list2)
-            {
-                if (item.Id == experienceId)
-                {
-                    item.UserId = profile.UserId;
-                    item.MyExperience = profile.MyExperience;
-                    item.Description = profile.MyExperienceDescription;
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }   
-            }
-
-            //create project
-            var list3 = await _context.Projects.ToListAsync();
-            int projectId =  GetTableByUserId(profile.UserId,list3);
-            foreach (var item in list3)
-            {
-                if (item.Id == projectId)
-                {
-                    item.UserId = profile.UserId;
-                    item.MyProjects = profile.MyProjects;
-                    item.Description = profile.MyProjectsDescription;
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }   
-            }
-            
-            //skills
-            var list4 = await _context.Skills.ToListAsync();
-            int skillsId =  GetTableByUserId(profile.UserId,list4);
-            foreach (var item in list4)
-            {
-                if (item.Id == skillsId)
-                {
-                    item.UserId = profile.UserId;
-                    item.MySkills = profile.MySkills;
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }   
-            }
-            
-            //about
-            var list5 = await _context.Abouts.ToListAsync();
-            int aboutId =  GetTableByUserId(profile.UserId,list5);
-            foreach (var item in list5)
-            {
-                if (item.Id == aboutId)
-                {
-                    item.UserId = profile.UserId;
-                    item.about = profile.about;
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }   
-            }
+            await UpdateEducation(profile);
+            await UpdateExperience(profile);
+            await UpdateProject(profile);
+            await UpdateSkills(profile);
+            await UpdateAbouts(profile);
             return true;
+    }
+
+    private async Task<bool> UpdateEducation(Profile profile) {
+        var edcuationList = await _context.Educations.ToListAsync();
+        int educationId =  GetTableByUserId(profile.UserId,edcuationList);
+        var edcucation = await _context.Educations.FindAsync(educationId);
+        edcucation.UserId = profile.UserId;
+        edcucation.MyEducation = profile.MyEducation;
+        edcucation.Description = profile.MyEducationDescription;
+        _context.Entry(edcucation).State = EntityState.Modified;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
+        return isCompletedSuccessfully;
+    }
+
+    private async Task<bool> UpdateExperience(Profile profile)
+    {
+        var experiencelist = await _context.Experiences.ToListAsync();
+        int experienceId =  GetTableByUserId(profile.UserId,experiencelist);
+        var experience = await _context.Experiences.FindAsync(experienceId);
+        experience.UserId = profile.UserId;
+        experience.MyExperience = profile.MyExperience;
+        experience.Description = profile.MyExperienceDescription;
+        _context.Entry(experience).State = EntityState.Modified;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
+        return isCompletedSuccessfully;
+    }
+
+    private async Task<bool> UpdateProject(Profile profile) {
+        var projectsList = await _context.Projects.ToListAsync();
+        int projectId =  GetTableByUserId(profile.UserId,projectsList);
+        var project = await _context.Projects.FindAsync(projectId);
+        project.UserId = profile.UserId;
+        project.MyProjects = profile.MyProjects;
+        project.Description = profile.MyProjectsDescription;
+        _context.Entry(project).State = EntityState.Modified;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
+        return isCompletedSuccessfully;
+    }
+
+    private async Task<bool> UpdateSkills(Profile profile) {
+        var skillsList = await _context.Skills.ToListAsync();
+        int skillsId =  GetTableByUserId(profile.UserId,skillsList);
+        var skills = await _context.Skills.FindAsync(skillsId);
+        skills.UserId = profile.UserId;
+        skills.MySkills = profile.MySkills;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
+        return isCompletedSuccessfully;
+    }
+
+    private async Task<bool> UpdateAbouts(Profile profile) {
+        var aboutslist = await _context.Abouts.ToListAsync();
+        int aboutId =  GetTableByUserId(profile.UserId,aboutslist);
+        var about = await _context.Abouts.FindAsync(aboutId);
+        about.UserId = profile.UserId;
+        about.about = profile.about;
+        _context.Entry(about).State = EntityState.Modified;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
+        return isCompletedSuccessfully;  
     }
 
     public Users CreateUser(Profile profile)
@@ -241,57 +178,57 @@ public class ProfileService: IProfile
         users.cell = profile.cell;
         users.currentOccupation = profile.currentOccupation;
         users.email = profile.email;
+        users.Id = profile.UserId;
         users.image = profile.image;
-        _context.users.AddRangeAsync(users);
+        users.Theme = profile.Theme;
+        users.PasswordHash = Array.Empty<byte>();
+        users.PasswordSalt = Array.Empty<byte>();
         return users;
     }
 
-    public bool CreateEducation(Profile profile , int userId) {
+    public Education CreateEducation(Profile profile) {
         
         Education education = new Education();
            
-        education.UserId = userId;
+        education.UserId = profile.UserId;
         education.MyEducation = profile.MyEducation;
         education.Description = profile.MyEducationDescription;
-        var response = _context.Educations.AddAsync(education);
+      
         
-        return response.IsCompletedSuccessfully;
+        return education;
     }
 
-    public bool CreateAbout(Profile profile, int userId) {
+    public About CreateAbout(Profile profile) {
         About about = new About();
-        about.UserId = userId;
+        about.UserId = profile.UserId;
         about.about = profile.about;
         //var response =  _context.Abouts.AddRangeAsync(about);
-        var response =  _context.Abouts.AddAsync(about);
-        return response.IsCompletedSuccessfully;
+        // var response =  _context.Abouts.AddAsync(about);
+        return about;
     }
 
-    public bool CreateExperience(Profile profile , int userId){
+    public Experience CreateExperience(Profile profile){
         Experience experience = new Experience();
-        experience.UserId = userId;
+        experience.UserId = profile.UserId;
         experience.MyExperience = profile.MyExperience;
         experience.Description = profile.MyProjectsDescription;
-        var response =  _context.Experiences.AddAsync(experience);
-        return response.IsCompletedSuccessfully;
+        return experience;
     }
 
-    public bool CreateProject(Profile profile, int userId){
+    public Projects CreateProject(Profile profile){
         Projects projects = new Projects();
-        projects.UserId = userId;
+        projects.UserId = profile.UserId;
         projects.MyProjects = profile.MyProjects;
         projects.Description = profile.MyProjectsDescription;
-        var response = _context.Projects.AddAsync(projects);
-        return response.IsCompletedSuccessfully;
+        return projects;
     }
 
-    public bool CreateSkills(Profile profile,int userId){
+    public Skills CreateSkills(Profile profile){
         
         Skills skills = new Skills();
-        skills.UserId = userId;
+        skills.UserId = profile.UserId;
         skills.MySkills = profile.MySkills;
-        var response = _context.Skills.AddAsync(skills);
-        return response.IsCompletedSuccessfully;
+        return skills;
     }
 
     public Users CreateUserObject(Profile profile)
@@ -321,26 +258,61 @@ public class ProfileService: IProfile
 
     public int GetTableByUserId(int userId, List<Experience> experienceList)
     {
-        throw new NotImplementedException();
+        var  results = (from a in experienceList
+            where a.UserId == userId
+            
+            select new {
+                id = a.Id,
+            
+            } );
+        return results.First().id;
     }
 
     public int GetTableByUserId(int userId, List<Education> educationList)
     {
-        throw new NotImplementedException();
+        var  results = (from a in educationList
+            where a.UserId == userId
+            
+            select new {
+                id = a.Id,
+            
+            } );
+        return results.First().id;
     }
 
     public int GetTableByUserId(int userId, List<Skills> skillsList)
     {
-        throw new NotImplementedException();
+        var  results = (from a in skillsList
+            where a.UserId == userId
+            
+            select new {
+                id = a.Id,
+            
+            } );
+        return results.First().id;
     }
 
     public int GetTableByUserId(int userId, List<Projects> projectsList)
     {
-        throw new NotImplementedException();
+        var  results = (from a in projectsList
+            where a.UserId == userId
+            
+            select new {
+                id = a.Id,
+            
+            } );
+        return results.First().id;
     }
 
     public int GetTableByUserId(int userId, List<About> aboutList)
     {
-        throw new NotImplementedException();
+        var  results = (from a in aboutList
+            where a.UserId == userId
+            
+            select new {
+                id = a.Id,
+            
+            } );
+        return results.First().id;
     }
 }

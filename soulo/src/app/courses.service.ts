@@ -1,14 +1,14 @@
 import { profile } from './model/profile';
 import { Products } from './model/products';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CoursesService {
+export class CoursesService implements OnInit {
   public courses = ["english","math","science"];
   public profiles: profile[] = [];
   public profiler: profile[];
@@ -41,6 +41,11 @@ export class CoursesService {
      
   }
 
+  ngOnInit(): void {
+    this.getProfiles();
+    console.log(this.profiler);
+  }
+
 
     public getProfiles(){
       const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile/name?name=Thabang`).pipe(
@@ -48,6 +53,7 @@ export class CoursesService {
         const products = [];
         for(const key in data){
           if(data.hasOwnProperty(key)){
+            console.log(data[key]);
             products.push({...data[key],id:key})
           }
           
@@ -56,6 +62,7 @@ export class CoursesService {
       })
     ).subscribe(
     (datas) =>{
+      console.log("Thabang");
       console.log(datas); 
 
       this.profiler = datas;
@@ -72,6 +79,16 @@ export class CoursesService {
       this.skillList = skills.split(',')
       console.log(this.skillList);
 
+    }
+
+    async  getUserData(){
+    console.log("func");
+     return 1;
+      
+    }
+    getBanners(): Observable<any[]> {
+      let name : Observable<any[]>;
+      return name;
     }
   
   
