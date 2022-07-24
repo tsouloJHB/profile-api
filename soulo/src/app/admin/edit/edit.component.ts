@@ -1,10 +1,14 @@
+import { Emitters } from '../emitters/emitters';
 import { CoursesService } from 'src/app/courses.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { profile } from 'src/app/model/profile';
 import { map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from 'src/app/Data/data.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 
 @Component({
@@ -17,56 +21,74 @@ export class EditComponent implements OnInit {
   service;
   public profiler: profile[];
   image:string;
-  constructor(service: CoursesService, private route: ActivatedRoute,private router: Router,private http:HttpClient,private _snackBar: MatSnackBar) {
-    this.getProfiles();
-    console.log("the bag");
-    console.log(service.image);
-    // for (const key in service.profiler) {
-    //   console.log("Hi "+key);
-    //   if (Object.prototype.hasOwnProperty.call(service.profiler, key)) {
-    //     const element = service.profiler[key];
-    //     console.log(element.mySkills);
-    //   }
-     // service.getUserData();
-    
-   }
+  authenticated = false;
+  message = "";
+  progress: number;
+  uploadMessage: string;
+  @Output() public onUploadFinished = new EventEmitter();
 
-   getUserFromData(data:profile){
-      this.postProfile(data).subscribe(da=>{
-        this._snackBar.open("Data edited")
-      },err=>{
-        this._snackBar.open("Submitted")
-      });
+  constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+     private http:HttpClient,
+     private _snackBar: MatSnackBar,
+     private data:DataService,
+     private sanitizer:DomSanitizer
+     ) {
+      //location.reload();
+      
    }
+   //GET user data
+  //  getUserFromData(data:profile){
+  //     this.postProfile(data).subscribe(da=>{
+  //       this._snackBar.open("Data edited")
+  //     },err=>{
+  //       this._snackBar.open("Submitted")
+  //     });
+   //}
 
    ngOnInit(): void {
+  
+    this.getProfiles();
+    this.authenticated =  ( localStorage.getItem("login") == "true");
+    console.log(this.authenticated);
+    console.log(localStorage.getItem("token"));
   }
 
   public postProfile(data:profile){
- 
-    data.userId = 1;
-    data.myProjects = "toy";
-    data.myProjectsDescription = "stuff";
+    //delete this below after the database has data
+    data.userId = 0;
+    // data.myProjects = "toy";
+    // data.myProjectsDescription = "stuff";
     data.image = this.image;
-    data.currentOccupation = "intern";
-    console.log(data.theme);
-    const urlValue = "https://localhost:7096/api/Profile/1";
-    this.http.put(urlValue,data).subscribe(
+    // data.currentOccupation = "intern";
+    console.log(data);
+    const urlValue = "https://localhost:7096/api/Profile/UpdateProfile";
+    this.http.put(urlValue,data,{withCredentials:true,
+      headers: new HttpHeaders({
+      'Authorization': 'bearer '+ localStorage.getItem("token")
+    }),
+  }).subscribe(
       (datas) =>{
         
         console.log(datas); 
- 
-          
+       
+        this._snackBar.open("Submitted")  
         });
-    return this.http.put(urlValue,data);
+        this.getProfiles();
+    
   }
   public getProfiles(){
-    const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile/name?name=Thabang`).pipe(
+    console.log(localStorage.getItem("token"))
+    const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile`,{withCredentials:true,
+    headers: new HttpHeaders({
+    'Authorization': 'bearer '+ localStorage.getItem("token")
+  }),
+}).pipe(
     map((data)=>{
       const products = [];
       for(const key in data){
         if(data.hasOwnProperty(key)){
-          console.log(data[key]);
           products.push({...data[key],id:key})
         }
         
@@ -75,17 +97,52 @@ export class EditComponent implements OnInit {
     })
   ).subscribe(
   (datas) =>{
-    console.log("Thabang");
-    console.log(datas); 
+    console.log(datas);
     this.profiler = datas;
     this.image = this.profiler[0].image;
-    // datas.forEach(element => {
-    //   console.log(element.mySkills);
-    //   this.splitSkills(element.mySkills);
-    // });
+    localStorage.setItem("name",this.profiler[0].name);
+    localStorage.setItem("theme",this.profiler[0].theme);
+   
       
     });
     
+  }
+
+  logout(){
+    localStorage.setItem("login","false");
+    this.http.delete("https://localhost:7096/api/Auth/logout",{withCredentials:true}).subscribe(data=>{
+      localStorage.setItem("login","false");
+    })
+  }
+
+  uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    
+    this.http.post('https://localhost:7096/api/Profile/imageupload', formData, {reportProgress: true, observe: 'events',withCredentials:true,
+        headers: new HttpHeaders({
+        'Authorization': 'bearer '+ localStorage.getItem("token")
+      }),
+  })
+      .subscribe({
+        next: (event) => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.uploadMessage = 'Upload success.';
+          this.onUploadFinished.emit(event.body);
+        }
+      },
+      error: (err: HttpErrorResponse) => console.log(err)
+    });
+  }
+
+  transform(html) {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
 }

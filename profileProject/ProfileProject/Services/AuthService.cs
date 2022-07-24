@@ -58,7 +58,7 @@ public class AuthService: IAuth
         return profile;
     }
 
-    public async  void UserUpdateRefreshToken(RefreshToken refreshToken,Users user)
+    public async Task<bool> UserUpdateRefreshToken(RefreshToken refreshToken,Users user)
     {
         //var user =  _context.users.FindAsync(3);
         var foundUser = await _context.users.FindAsync(user.Id);
@@ -72,17 +72,45 @@ public class AuthService: IAuth
         foundUser.RefreshToken = refreshToken.Token;
         _context.Entry(foundUser).State = EntityState.Modified;
         var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
-        // return isCompletedSuccessfully;
+        return isCompletedSuccessfully;
+    }
+
+    public async void DeleteRefreshTokens(int id)
+    {
+        var  results = (from a in _context.users
+            where a.Id == id
+            select new Users
+            {
+                name = a.name,
+                surname = a.surname,
+                email = a.email,
+                cell = a.cell,
+                PasswordHash = a.PasswordHash,
+                PasswordSalt = a.PasswordSalt,
+                Id = a.Id, 
+                currentOccupation = a.currentOccupation,
+                image  = a.image,
+                Theme = a.Theme,
+                RefreshToken  = string.Empty,
+                TokenCreated = a.TokenCreated,
+                TokenExpires = a.TokenExpires
+            } );
+        Users user = new Users();
+        if (results.Any()){
+            foreach (var use in results){
+                user = use;
+            }
+        }
+        //var user = await _context.users.FindAsync(id);
+        // user.RefreshToken = "";
+        _context.Entry(user).State = EntityState.Modified;
+        var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
     }
 
     public async Task<Users> GetUserByRefreshToken(string refreshToken)
     {
         var userList = await _context.users.ToListAsync();
-        // Parallel.ForEach(userList, user =>
-        // {
-        //     Console.WriteLine(user);     
-        //
-        // });
+
         foreach (var user in userList)
         {
             Console.WriteLine(user.RefreshToken);

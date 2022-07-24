@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color:#ffff;
+    /* background-color:#242424; */
+}
+body{
+  
+    background-color:#242424; 
+
+}
+
+/* Works on Chrome, Edge, and Safari */
+iframe::-webkit-scrollbar {
+  width: 12px;
+}
+iframe::-webkit-scrollbar-track {
+  background: orange;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 20px;
+  border: 3px solid orange;
+}
+
+
+.row {
+    display: flex;
+    background-color:#242424; 
+  }
+  
+  /* Create two equal columns that sits next to each other */
+  .column {
+    flex: 50%;
+    padding: 10px;
+    height: 800px; /* Should be removed. Only for demonstration */
+  }
+
+  .column1 {
+    flex: 3;
+    height: 800px;
+  }
+  iframe{
+    overflow-y: hidden;
+  overflow-x: hidden;
+  
+  }
+
+input{
+  background-color:#242424; 
+}
+  .column2 {
+    flex: 1;
+    padding: 20px;
+  }
+.navbar{
+  background-color: black;
+}  

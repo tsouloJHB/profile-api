@@ -18,7 +18,7 @@ export class EditComponent implements OnInit {
         const element = service.profiler[key];
         console.log(element.mySkills);
       }
-      service.getUserData();
+   
     }
    }
 

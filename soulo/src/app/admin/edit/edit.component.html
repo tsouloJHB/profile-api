@@ -1,11 +1,31 @@
 <div class="container rounded bg-white mt-5 mb-5">
-    <form  #usersForm="ngForm" (ngSubmit)="getUserFromData(usersForm.value)">
+    <div class="logout" *ngIf="authenticated">
+        <a routerLink="/login" (click)="logout()">logout</a>
+    </div>
+    <form  #usersForm="ngForm" (ngSubmit)="postProfile(usersForm.value)">
     <div class="row" *ngFor="let item of profiler">
         
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="../../assets/images/me.jpg"><span class="font-weight-bold">Thabang</span><span class="text-black-50"></span><span> </span></div>
-            <div class="d-flex justify-content-between  "><span class="border px-2 p-1 add-experience"><i class="fa fa-plus"></i>Change Image</span></div>
-
+            <div *ngIf="item.image != ''">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{item.image}}"><span class="font-weight-bold">{{item.name}}</span><span class="text-black-50"></span><span> </span></div>
+            </div>
+            <div *ngIf="item.image == ''">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="../assets/images/defualtPicture.png"><span class="font-weight-bold">{{item.name}}</span><span class="text-black-50"></span><span> </span></div>
+            </div>
+            <div class="row" style="margin-bottom:15px;">
+                <div class="col-md-3">
+                  <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+                  <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+                </div>
+                <div class="col-md-4">
+                  <span class="upload" *ngIf="progress > 0">
+                    {{progress}}%
+                  </span>
+                  <span class="upload" *ngIf="message">
+                    {{message}}
+                  </span>
+                </div>
+              </div>
             <p>Select theme</p>
             <select name="Themes" id="cars" [(ngModel)]="item.theme" name="theme" >
                 <div *ngIf="item.theme == 'classic'">
@@ -19,6 +39,11 @@
                 <option value="classic" >Classic</option>
                
               </select>
+              <br>
+              <br>
+              <a routerLink="/theme">
+              <button type="button" class="btn btn-success" >Edit Theme</button>  
+              </a>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -38,6 +63,9 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Current Occupation</label><input type="text" [(ngModel)]="item.currentOccupation" class="form-control" name="currentOccupation" placeholder="currentOccupation" value="{{item.currentOccupation}}"></div>
+                    <div class="col-md-6"><label class="labels">myProjects</label><input type="text" [(ngModel)]="item.myProjects" class="form-control" name="myProjects" placeholder="myProjects" value="{{item.myProjects}}"></div>
+                    <div class="col-md-6"><label class="labels">myProjectsDescription</label><input type="text" [(ngModel)]="item.myProjectsDescription" class="form-control" name="myProjectsDescription" placeholder="myProjectsDescription" value="{{item.myProjectsDescription}}"></div>
+                    
                 </div>
 
             </div>

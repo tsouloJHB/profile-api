@@ -1,9 +1,9 @@
-<footer>
+<footer  [ngStyle]="{'background-color':template.educationBackgroundColor}">
     <div class="footer-content">
         <!--add all information -->
         <div *ngFor="let item of service.profiler">
-            <h3>{{item.name+" "+item.surname}}</h3>
-            <p>{{item.about}}</p>
+            <h3 [ngStyle]="{'color':template.footerTextColor1,'font-size':template.footerTextSize1}">{{item.name+" "+item.surname}}</h3>
+            <p [ngStyle]="{'color':template.footerTextColor2,'font-size':template.footerTextSize2}">{{item.about}}</p>
         </div>
         
         <ul class="socials">

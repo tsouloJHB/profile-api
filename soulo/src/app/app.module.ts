@@ -1,3 +1,4 @@
+import { PostService } from './service/post.service';
 import { ProfileModule } from './profile/profile.module';
 import { ProfileAdminModule } from './../profile-admin/profile-admin.module';
 import { AdminModule } from './admin/admin.module';
@@ -17,10 +18,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { PlaythemeComponent } from './playtheme/playtheme.component';
 import { AuthModule } from './auth/auth.module';
+import { PaintThemeComponent } from './paint-theme/paint-theme.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    PaintThemeComponent,
+  
    // PlaythemeComponent,
     
     // CourseComponent,
@@ -39,9 +45,11 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   providers: [
-    CoursesService
+    CoursesService,
+    PostService
   ],
 
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+}

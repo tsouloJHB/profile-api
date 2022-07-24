@@ -8,20 +8,20 @@
     
 </head>
 
-<body (wheel)="onWheel($event)">
+<body (wheel)="onWheel($event)" >
 
     <div class="scroll"></div>
     
-    <div class="container1">
+    <div class="container1"  *ngFor="let item of service.profiler">
        
-        <div class="page page_1">
+        <div class="page page_1" [ngStyle]="{'background-color':template.background1}">
          
-            <div id="page1">
+            <div id="page1" >
                 <p><b id="hello">Hello</b> World Im</p>
                  
            
             <div>
-                <h2 id="name">Thabang Soulo</h2>
+                <h2 id="name">{{item.name +" "+item.surname}}</h2>
             </div>
             <div  id="background-wrap">
                 <div class="x1">
@@ -48,25 +48,43 @@
             <!-- </div> -->
            
         </div>
-        <div class="page page_2">
+        <div class="page page_2" [ngStyle]="{'background-color':template.background2}">
             <div >
-                <img id="image-me" src="../../assets/images/me.jpg">
+                <div *ngIf="item.image != ''">
+                    <img id="image-me"  [src]="transform(item.image)" alt="Profile Picture">
+                </div>
+                <div *ngIf="item.image == ''">
+                    <img id="image-me"  src="../../assets/images/defualtPicture.png" alt="Profile Picture">
+                </div>
+                <!-- <img id="image-me" src="../../assets/images/me.jpg"> -->
                 <p id="about-text">About Me</p>
                  
                 <div id="about">
-                    <p>I have just over a year of experience as a junior software engineer with First Technology<br>. In my short time there, I've already contributed to over a dozen projects and assisted with<br> managing one project for one of the firm's long-time clients.</p>
+                    {{item.about}}
+                    <!-- <p>I have just over a year of experience as a junior software engineer with First Technology<br>. In my short time there, I've already contributed to over a dozen projects and assisted with<br> managing one project for one of the firm's long-time clients.</p> -->
                 </div>
             </div>
         </div>
-        <div class="page page_3">
+        <div class="page page_3" [ngStyle]="{'background-color':template.background3}">
             <div class="skills-section">
                 <div class="skills-header">
                  <h1>Skills</h1>   
                  </div>
                  <div class="skills-container">
+
+                    <div class="skill-bars"  *ngFor="let item of service.skillList">
+                    <div class="skills-box">
+                        <div class="skills-title">
+                        <div class="skills-img">
+                         <img src="https://logos-download.com/wp-content/uploads/2016/10/Java_logo_icon.png" alt="" class="skills-icons">
+                         </div>
+                         <h3>{{item}}</h3>
+                         </div>
+                         
+                        </div>
+                    </div>    
                    
-                   
-                      <div class="skills-box">
+                    <!-- <div class="skills-box">
                    <div class="skills-title">
                    <div class="skills-img">
                     <img src="https://logos-download.com/wp-content/uploads/2016/10/Java_logo_icon.png" alt="" class="skills-icons">
@@ -122,7 +140,7 @@
                              <h3>JAVASCRIPT</h3>
                              </div>
                              
-                            </div>
+                            </div> -->
                    
                    </div>
                 

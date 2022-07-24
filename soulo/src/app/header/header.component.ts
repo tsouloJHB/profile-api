@@ -3,6 +3,9 @@ import { Component, OnInit,HostListener } from '@angular/core';
 import { CoursesService } from '../courses.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { themeTemplatesClassic } from '../model/themeTemplatesClassic';
+import * as jsonTemplate from '../model/themeTemplate.json';
 
 
 @Component({
@@ -12,10 +15,20 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   service;
+  template:themeTemplatesClassic;
   heroElement = document.querySelector('#intro');
-  constructor(service: CoursesService, private route: ActivatedRoute,private router: Router) {
+  constructor(
+    service: CoursesService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    private sanitizer:DomSanitizer
+    ) {
     this.service = service;
-    
+    console.log(service.profiler.forEach(data=>{
+      console.log(data);
+    }))
+    this.template = service.getThemeTemplate();
+    console.log(this.template.headerTextColor1);
    }
   once:boolean = false;
   name = "intro"
@@ -38,6 +51,9 @@ export class HeaderComponent implements OnInit {
       console.log(queryParam);
     });
     
+  }
+  transform(html) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }
 
 }

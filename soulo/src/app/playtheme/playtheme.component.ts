@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { map } from 'rxjs';
+import { CoursesService } from '../courses.service';
 import { profile } from '../model/profile';
+import { themeTemplatesCreative } from '../model/themeTemplatesCreative';
 
 @Component({
   selector: 'app-playtheme',
@@ -10,17 +13,23 @@ import { profile } from '../model/profile';
 })
 export class PlaythemeComponent implements OnInit {
 
-
+  service;
   theme:string;
-  constructor(private http:HttpClient) {
-  
-    this.getProfiles();
+  template:themeTemplatesCreative;
+  constructor(
+    private http:HttpClient,
+    service: CoursesService,
+    private sanitizer:DomSanitizer 
+    ) {
+    this.service = service;
+    
+   
+    this.template = service.getThemeTemplate();
+    console.log(this.template.background1);
    }
 
-//    onWheel(event: WheelEvent): void {
-//     (<Element>event.target).parentElement.scrollLeft += event.deltaY;
-//     event.preventDefault();
-//  } 
+
+   //Side scroll effect
     onWheel(event: WheelEvent): void {
       if (event.deltaY > 0) (<Element>event.target).parentElement!.scrollLeft +=  event.deltaY;
       else (<Element>event.target).parentElement!.scrollLeft -= 20;
@@ -30,33 +39,9 @@ export class PlaythemeComponent implements OnInit {
   }
 
 
-  public getProfiles(){
-    const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile/name?name=Thabang`).pipe(
-    map((data)=>{
-      const products = [];
-      for(const key in data){
-        if(data.hasOwnProperty(key)){
-          console.log(data[key]);
-          products.push({...data[key],id:key})
-        }
-        
-      }
-      return products;
-    })
-  ).subscribe(
-  (datas) =>{
-    console.log("Thabang");
-    console.log(datas[0].image); 
-    this.theme = datas[0].theme;
-    // this.profiler = datas;
-    // this.image = this.profiler[0].image;
-    // datas.forEach(element => {
-    //   console.log(element.mySkills);
-    //   this.splitSkills(element.mySkills);
-    // });
-      
-    });
-    
+
+  transform(html) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }
 
 }

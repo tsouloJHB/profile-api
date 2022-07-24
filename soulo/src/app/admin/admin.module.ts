@@ -6,11 +6,13 @@ import { EditComponent } from './edit/edit.component';
 import { CoursesService } from '../courses.service';
 import { FormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { EditThemeComponent } from './edit-theme/edit-theme.component';
 
 
 @NgModule({
   declarations: [
-    EditComponent
+    EditComponent,
+    EditThemeComponent
   ],
   imports: [
     CommonModule,

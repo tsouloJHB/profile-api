@@ -7,6 +7,7 @@ using ProfileProject.Models;
 using ProfileProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json.Linq;
 
 
 namespace ProfileProject.Controllers;
@@ -23,6 +24,7 @@ public class AuthController : ControllerBase
     public AuthController(IConfiguration configuration, IAuth auth, IProfile profile)
     {
         _configuration = configuration;
+        
         _auth = auth;
         _profileService = profile;
     }
@@ -62,17 +64,30 @@ public class AuthController : ControllerBase
     [HttpGet,Authorize]
     [ProducesResponseType(typeof(List<Profile>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<Profile>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public IEnumerable<Profile> GetProfile(){
-           
-        return _profileService.GetAllProfiles().Result; 
+        string rawId = HttpContext.User.FindFirstValue("id");
+        if (rawId.Equals(""))
+        {
+            return new List<Profile>();
+        }
 
+        int id = Int16.Parse(rawId);
+        Console.WriteLine(id);
+        //Profile profile = _profileService.GetProfileById(id);
+        List<Profile> profiles = new List<Profile>();
+        profiles.Add(_profileService.GetProfileById(id).Result);
+        ;
+        return profiles; 
+    
     }
 
-    private string CreateToken(User user)
+    private string CreateToken(Users user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Email)
+            new Claim("id",user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.email)
 
         };
         //create key getting key from appsettings
@@ -91,11 +106,14 @@ public class AuthController : ControllerBase
         return jwt;
     }
 
-
+    [EnableCors("CorsApi")]    
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status419AuthenticationTimeout)]
     public async Task<ActionResult<string>> Login(UserLoginDto request)
     {
-     
+        Console.WriteLine(request.Email);
+        Console.WriteLine(request.Password);
+        user.RefreshToken = request.Password;
         Users user1 =  _auth.GetUserByEmail(request.Email.ToLower());
        
         if (user1.email.IsNullOrEmpty()) {
@@ -110,14 +128,37 @@ public class AuthController : ControllerBase
         var newRefreshToken = GenerateRefreshToken();
         
         SetRefreshToken(newRefreshToken,user1);
-        string token = CreateToken(user);
+        string token = CreateToken(user1);
 
         //
-
-        return Ok(token);
+        // JObject json = JObject.Parse(token);
+        string newToken = "{ \"token\":\"" + token +"\"}";
+        return Ok(newToken);
     }
+    [Authorize]
+    [HttpDelete("logout")]
+    public async Task<ActionResult> Logout()
+    {
+        string rawId = HttpContext.User.FindFirstValue("id");
+       
+       // string rawId = "3";
+        Console.WriteLine(rawId);
+        if (rawId.Equals(""))
+        {
+            return Unauthorized();
+        }
+
+        int id = Int16.Parse(rawId);
+        // if(!Guid.TryParse(rawId, out int userid))
+        // {
+        //     return Unauthorized();
+        // }
+       // _auth.DeleteRefreshTokens(id);
+        return NoContent();
+    }
+
     [EnableCors("CorsApi")]
-    [HttpPost("refresh-token")]
+    [HttpPost("refresh-token"),Authorize]
     public async Task<ActionResult<string>> RefreshToken()
     {
         
@@ -134,20 +175,22 @@ public class AuthController : ControllerBase
             return Unauthorized("Token expired.");
         }
 
-        string token = CreateToken(user);
+        string token = CreateToken(user1);
         var newRefreshToken = GenerateRefreshToken();
         //Users user1 = _auth.GetUserByRefreshToken(newRefreshToken).Result;
         SetRefreshToken(newRefreshToken,user1);
-
+        
         return Ok(token);
     }
 
-    private void SetRefreshToken(RefreshToken newRefreshToken,Users user1)
+    private async void SetRefreshToken(RefreshToken newRefreshToken,Users user1)
     {
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Expires = newRefreshToken.Expires
+            Expires = newRefreshToken.Expires,
+            SameSite = SameSiteMode.None,
+            Secure  = VerifyPasswordHah(user.RefreshToken,user1.PasswordHash,user1.PasswordSalt)
         };
         Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
         //edit user
@@ -155,7 +198,7 @@ public class AuthController : ControllerBase
         user.TokenCreated = newRefreshToken.Created;
         user.TokenExpires = newRefreshToken.Expires;
       
-        _auth.UserUpdateRefreshToken(newRefreshToken,user1);
+        await _auth.UserUpdateRefreshToken(newRefreshToken,user1);
     }
     
     private RefreshToken GenerateRefreshToken()

@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EditComponent } from './edit/edit.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path:'theme',component: EditComponent},
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

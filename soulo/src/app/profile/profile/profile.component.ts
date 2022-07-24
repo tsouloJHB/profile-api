@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { CoursesService } from 'src/app/courses.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { CoursesService } from 'src/app/courses.service';
 import { profile } from 'src/app/model/profile';
+import { ThemeEdits } from 'src/app/model/themeEdits';
+import { Observable, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +14,26 @@ import { profile } from 'src/app/model/profile';
 })
 export class ProfileComponent implements OnInit {
 
-  service;
+  
   theme:string;
-  constructor(private http:HttpClient,service: CoursesService, private route: ActivatedRoute,private router: Router) {
+  name = "";
+  editTheme:ThemeEdits
+  constructor(
+    private http:HttpClient,
+    private service: CoursesService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    
+    ) {
+     
+  
+    this.name = window.location.pathname.split("/")[1];
+    this.getThemes();
+  
     this.getProfiles();
-
-    console.log(service.image);
+     
+  
+   
     for (const key in service.profiler) {
       console.log("Hi "+key);
       if (Object.prototype.hasOwnProperty.call(service.profiler, key)) {
@@ -25,16 +41,32 @@ export class ProfileComponent implements OnInit {
         console.log(element.mySkills);
         console.log(element.currentOccupation);
       }
-      service.getUserData();
+  
     }
+     
    }
 
   ngOnInit(): void {
+
+    // this.service.getThemes().subscribe((data:ThemeEdits)=> this.stuff ={
+    //   id : data.id,
+    //   userId : data.userId,
+    //   jsonCode : data.jsonCode,
+    //   theme : data.theme
+    // });  
+    
+ 
+   
   }
+  ngAfterViewInit() {
+    
+  
+ }
+
 
 
   public getProfiles(){
-    const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile/name?name=Thabang`).pipe(
+    const cat = this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile/name?name=`+this.name).pipe(
     map((data)=>{
       const products = [];
       for(const key in data){
@@ -61,6 +93,27 @@ export class ProfileComponent implements OnInit {
       
     });
     
+  }
+    
+  public  getThemes(){
+   var stuffs
+   this.http.get<ThemeEdits>(`https://localhost:7096/api/Profile/GetTheme`,{withCredentials:true,
+    headers: new HttpHeaders({
+      'Authorization': 'bearer '+ localStorage.getItem("token")
+    }),
+  }
+    
+    ).pipe(
+      map((data)=>{
+        var products;
+        this.editTheme = data;
+        return data
+      })
+    ).subscribe(data=>{
+      this.editTheme = data;
+      console.log(this.editTheme.jsonCode)
+    });
+ 
   }
 
 }

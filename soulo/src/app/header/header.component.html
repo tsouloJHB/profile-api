@@ -8,10 +8,10 @@
 
             <div class="col-twelve">
                 
-                <h5>Hello, World</h5>
-                <h1>I'm{{item.name +" "+item.surname}} </h1>
+                <h5 [ngStyle]="{'color':template.headerTextColor1,'font-size':template.headerTextSize1}">Hello, World</h5>
+                <h1 [ngStyle]="{'color':template.headerTextColor2,'font-size':template.headerTextSize2}" >I'm {{item.name +" "+item.surname}} </h1>
 
-                <p class="intro-position">
+                <p [ngStyle]="{'color':template.headerTextColor3,'font-size':template.headerTextSize3}" class="intro-position">
                     <span>{{item.currentOccupation}}</span>
                 </p>
 
@@ -23,52 +23,52 @@
     </div>
 
 </section>
-<section id="about">  
+<section id="about" [ngStyle]="{'background-color':template.aboutBackgroundColor}">  
 
-    <div class="row section-intro" *ngFor="let item of service.profiler" >
+    <div   class="row section-intro" *ngFor="let item of service.profiler" >
         <div class="col-twelve">
 
-            <h5>About</h5>
-            <h1>Let me introduce myself.</h1>
+            <h5  [ngStyle]="{'color':template.aboutTextColor1,'font-size':template.aboutTextSize1}">About</h5>
+            <h1 [ngStyle]="{'color':template.aboutTextColor2,'font-size':template.aboutTextSize2}">Let me introduce myself.</h1>
 
             <div class="intro-info">
                 <div *ngIf="item.image != ''">
-                    <img src="../../assets/images/me.jpg" alt="Profile Picture">
+                    <img [src]="transform(item.image)" alt="Profile Picture">
                 </div>
                 <div *ngIf="item.image == ''">
-                    <img src="../../assets/images/profile-pic.jpg" alt="Profile Picture">
+                    <img src="../../assets/images/defualtPicture.png" alt="Profile Picture">
                 </div>
                
 
-                <p class="lead">{{item.about}}</p>
+                <p [ngStyle]="{'color':template.aboutTextColor3,'font-size':template.aboutTextSize3}" class="lead">{{item.about}}</p>
             </div>   			
 
         </div>   		
     </div> <!-- /section-intro -->
 
-    <div class="row about-content" *ngFor="let item of service.profiler">
+    <div class="row about-content"   *ngFor="let item of service.profiler">
 
         <div class="col-six tab-full">
 
-            <h3>Profile</h3>
-            <p>Personal Info</p>
+            <h3 [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Profile</h3>
+            <p [ngStyle]="{'color':template.aboutTextColor5,'font-size':template.aboutTextSize5}">Personal Info</p>
 
-            <ul class="info-list">
-                <li>
-                    <strong>Fullname:</strong>
-                    <span>{{item.name + " "+ item.surname}}</span>
+            <ul  class="info-list">
+                <li >
+                    <strong  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Fullname:</strong>
+                    <span  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">{{item.name + " "+ item.surname}}</span>
                 </li>
                 <li>
-                    <strong>Job:</strong>
-                    <span>{{item.currentOccupation}}</span>
+                    <strong  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Job:</strong>
+                    <span  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">{{item.currentOccupation}}</span>
                 </li>
                 <li>
-                    <strong>Email:</strong>
-                    <span>{{item.email}}</span>
+                    <strong  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Email:</strong>
+                    <span  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">{{item.email}}</span>
                 </li>
                 <li>
-                    <strong>Cell:</strong>
-                    <span>0{{item.cell}}</span>
+                    <strong  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Cell:</strong>
+                    <span  [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">0{{item.cell}}</span>
                 </li>
 
             </ul> <!-- /info-list -->
@@ -79,14 +79,14 @@
     
     <div class="col-six tab-full">
 
-        <h3>Skills</h3>
-        <p>Bellow are my skills</p>
+        <h3 [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">Skills</h3>
+        <p [ngStyle]="{'color':template.aboutTextColor5,'font-size':template.aboutTextSize5}">Bellow are my skills</p>
          <div  >   
          <ul class="skill-bars"  *ngFor="let item of service.skillList">
              
             <li>
                 
-                <strong>{{item}}</strong>
+                <strong [ngStyle]="{'color':template.aboutTextColor4,'font-size':template.aboutTextSize4}">{{item}}</strong>
             </li>
       
 

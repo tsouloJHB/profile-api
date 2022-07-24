@@ -18,5 +18,7 @@ namespace ProfileProject.Data
         public DbSet<Experience> Experiences {get; set;}
         public DbSet<Projects> Projects {get; set;}
         public DbSet<Skills> Skills {get; set;}
+        public DbSet<ThemeEdit> ThemeEdits { get; set; }
+        public DbSet<Posts> Posts { get; set; }
     }
 }

@@ -1,0 +1,72 @@
+<body>
+    
+<nav class="navbar fixed-top navbar navbar-expand-lg " >
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+     
+      aria-controls="navbarRightAlignExample"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div
+      class="collapse navbar-collapse"
+      id="navbarRightAlignExample"
+      mdbCollapse
+     
+    >
+      <!-- Left links -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
+            >Disabled</a
+          >
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+    <div class="row">
+        
+        <div class="column1">
+             <iframe [src]="transform(location)" style="border:none;overflow: hidden; "  seamless="seamless" title="W3Schools Free Online Web Tutorials" width="100%" height="100%" >   </iframe> 
+        </div>
+        <div class="column2">
+            <p>edit-theme works!</p>
+            <form  #usersForm="ngForm" (ngSubmit)="postThemeEdit(usersForm.value)">
+            <div *ngFor="let item of ThemeTemplate | keyvalue: keepOrder ">
+                <!-- <div>{{item.key}} </div> -->
+                <div class="form-outline">
+                    <label class="form-label"  for="form12" style="color: darkgrey;text-transform: capitalize;">{{item.key}}</label>
+                    <input type="text" [(ngModel)]="item.value" name="{{item.key}}" id="form12" class="form-control" value="{{item.value}}" />
+                  
+                  </div>
+
+                
+
+               
+            </div>
+                <input type="submit" class="form-control">
+            </form>
+            <!-- <ul *ngFor="let item of template">
+                <li style="color: white">{{item}}j</li>
+            </ul> -->
+        </div>
+    </div>    
+</body>

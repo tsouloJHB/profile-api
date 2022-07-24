@@ -1,12 +1,12 @@
  <!-- resume Section
    ================================================== -->
-   <section id="resume" class="grey-section">
+   <section id="resume" class="grey-section" [ngStyle]="{'background-color':template.educationBackgroundColor}">
 
     <div class="row section-intro">
        <div class="col-twelve">
 
-           <h5>Resume</h5>
-           <h1>More of my credentials.</h1>
+           <h5 [ngStyle]="{'color':template.educationTextColor1,'font-size':template.educationTextSize1}">Resume</h5>
+           <h1 [ngStyle]="{'color':template.educationTextColor2,'font-size':template.educationTextSize2}">More of my credentials.</h1>
 
            <p class="lead"> </p>
 

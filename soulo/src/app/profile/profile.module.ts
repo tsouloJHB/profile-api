@@ -14,6 +14,7 @@ import { CoursesService } from '../courses.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EditComponent } from './edit/edit.component';
 import { AuthModule } from '../auth/auth.module';
+import { NameComponent } from '../name/name.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { AuthModule } from '../auth/auth.module';
     FooterComponent,
     EditComponent,
     PlaythemeComponent,
+    NameComponent,
   ],
   imports: [
     CommonModule,

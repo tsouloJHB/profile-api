@@ -28,7 +28,7 @@ public interface IProfile
     Projects CreateProjectObject(Profile profile);
     
     //update database
-    Task<bool> UpdateProfile(Profile profile);
+    Task<bool> UpdateProfile(Profile profile,Users users);
     public int GetUserIdByName(string name);
     
     int GetTableByUserId(int userId, List<Experience> experienceList);
@@ -36,4 +36,11 @@ public interface IProfile
     int GetTableByUserId(int userId, List<Skills> skillsList);
     int GetTableByUserId(int userId, List<Projects> projectsList);
     int GetTableByUserId(int userId, List<About> aboutList);
+    int GetTableByUserId(int userId, List<ThemeEdit> themeEdits);
+    
+    //theme edit
+    Task<ThemeEdit> UpdateTheme(string jsonCode,string themeName ,int id);
+    Task<ThemeEdit> CreateTheme(string jsonCode,string themeName ,int id);
+    public Task<ThemeEdit> GetTheme(int id);
+    public Task<ThemeEdit> GetThemeByName(string name);
 }

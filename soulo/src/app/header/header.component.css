@@ -275,17 +275,17 @@ html {
 	margin-left: -20px;
 }
 .intro-info img {
-	height:5rem;
-	width: 5rem;
+	height:10rem;
+	width: 10rem;
 	border-radius: 50%;
-	margin: .9rem 0		 0 0;
+	margin: .9rem 5rem	0 0;
 	float: left;
 }
 .intro-info .lead {
 	text-align: left;
 	padding-left: 10rem;
 	color: #808080;
-	font-size: 25px;
+	font-size: 20px;
 
 }
 
