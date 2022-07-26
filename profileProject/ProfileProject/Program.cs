@@ -38,8 +38,10 @@ builder.Services.Configure<FormOptions>(o =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IProfile,ProfileService>();
 builder.Services.AddTransient<IPosts,PostsService>();
+builder.Services.AddTransient<IComment,Comment>();
 builder.Services.AddTransient<IAuth,AuthService>();
 builder.Services.AddTransient<IProfileDbContext,ProfileDbContext>();
+
 //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

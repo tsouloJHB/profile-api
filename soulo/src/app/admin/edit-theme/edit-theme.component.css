@@ -1,7 +1,5 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
     color:#ffff;
     /* background-color:#242424; */
 }
@@ -11,19 +9,7 @@ body{
 
 }
 
-/* Works on Chrome, Edge, and Safari */
-iframe::-webkit-scrollbar {
-  width: 12px;
-}
-iframe::-webkit-scrollbar-track {
-  background: orange;
-}
 
-*::-webkit-scrollbar-thumb {
-  background-color: blue;
-  border-radius: 20px;
-  border: 3px solid orange;
-}
 
 
 .row {
@@ -39,6 +25,7 @@ iframe::-webkit-scrollbar-track {
   }
 
   .column1 {
+    margin-left: 20px;
     flex: 3;
     height: 800px;
   }
@@ -55,6 +42,3 @@ input{
     flex: 1;
     padding: 20px;
   }
-.navbar{
-  background-color: black;
-}  

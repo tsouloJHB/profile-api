@@ -80,8 +80,7 @@ export class ProfileComponent implements OnInit {
     })
   ).subscribe(
   (datas) =>{
-    console.log("Thabang");
-    console.log(datas[0].image); 
+  
     this.theme = datas[0].theme;
     console.log(this.theme);
     // this.profiler = datas;

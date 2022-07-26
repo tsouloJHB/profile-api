@@ -376,12 +376,14 @@ public class ProfileService : IProfile
                 //int themeEditsId = GetTableByUserId(id, themeEdits);
                 //int themeEditsId = await GetThemeByProfile(id, themeEdits);
                 int themeEditsId = await GetThemeByIdTheme(id, themeEdits,themeName);
+                Console.WriteLine("User Id : "+ id + "Theme edit Id :"+ themeEditsId);
                 if (themeEditsId != 0)
                 {
                     Console.WriteLine("themeEdit: "+ themeEditsId);
                     //get specific theme by name
                     var themeEdit = await _context.ThemeEdits.FindAsync(themeEditsId);
                     themeEdit.JsonCode = jsonCode;
+                    Console.WriteLine("object Id :" + themeEdit.Id +" userId "+ themeEdit.UserId+ " " + themeEdit.Theme + " "+ themeEdit.JsonCode );
                     _context.Entry(themeEdit).State = EntityState.Modified;
                     var isCompletedSuccessfully = _context.SaveChangesAsync().IsCompletedSuccessfully;
                     return themeEdit;

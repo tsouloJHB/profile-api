@@ -14,6 +14,24 @@ import { FeedComponent } from './news-feed/feed/feed.component';
 
 
 const routes: Routes = [
+  {
+    path: '',
+    component: FeedComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: '/feed',
+        pathMatch: 'full'
+      },
+      {
+        path: 'feed',
+        loadChildren: () => import('./news-feed/news-feed.module').then(e => e.NewsFeedModule)
+      }
+    ]
+   
+  },
+
+   //
   
   //
   {

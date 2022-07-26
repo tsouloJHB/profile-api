@@ -1,5 +1,9 @@
+*{
+    color:#BCBDBE;
+}
 body {
-    background-color: #eeeeee;
+    background-color: black ;
+    color:#BCBDBE;
 }
 
 .h7 {
@@ -9,6 +13,21 @@ body {
 .gedf-wrapper {
     margin-top: 0.97rem;
 }
+
+.custom-nav{
+    margin-left: 3%;
+}
+
+.sections{
+    background-color:#1D2226;
+}
+.heading{
+    color: #eeeeee;
+}
+.alltext{
+    color:#BCBDBE;
+}
+
 
 @media (min-width: 992px) {
     .gedf-main {

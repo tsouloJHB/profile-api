@@ -33,11 +33,11 @@ export class EditThemeComponent implements OnInit {
     private route: ActivatedRoute,
      private router: Router,
     private sanitizer:DomSanitizer,
-    service: CoursesService,
+  
     private _snackBar: MatSnackBar,
     private http:HttpClient,
   ) { 
-    this.service = service;
+  
    
    
 
@@ -57,8 +57,6 @@ export class EditThemeComponent implements OnInit {
   postThemeEdit(themeData:any){
     
     if(localStorage.getItem("theme") == "classic"){
-        alert("inside");
-        alert(themeData.aboutBackgroundColor);
         this.themeData = new themeTemplatesClassic();
     }else if(localStorage.getItem("theme") == "creative"){
       this.themeData = new themeTemplatesCreative();
@@ -74,7 +72,7 @@ export class EditThemeComponent implements OnInit {
     } as ThemeEdits
     this.postProfile(themeEdits);
      
-
+    
   }
 
 

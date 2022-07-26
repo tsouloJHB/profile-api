@@ -1,11 +1,33 @@
-<div class="container rounded bg-white mt-5 mb-5">
+<body >
+<nav class="navbar fixed-top navbar-expand-lg  navbar-light" style="background-color: #1D2226;">
+    <a href="#" class="navbar-brand custom-nav" style="color: #E9E9EA;">PROFILER</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02" style="color: #E9E9EA;">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
+       
+      
+      </ul>
+    </div>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
+        <li class="nav-item active" >
+          <a style="color: #E9E9EA;" class="nav-link" href="#">Edit Profile </a>
+        </li>
+        <li class="nav-item">
+          <a style="color: #E9E9EA;" class="nav-link" href="#">Theme Edit</a>
+        </li>
+        <li class="nav-item">
+            <a style="color: #E9E9EA;" class="nav-link" href="#">Log out</a>
+          </li>
+      </ul>
+ 
+</nav>
+<div class="container  rounded mt-5 mb-5  "   style="margin-left: 90px; background-color: black;">
     <div class="logout" *ngIf="authenticated">
         <a routerLink="/login" (click)="logout()">logout</a>
     </div>
     <form  #usersForm="ngForm" (ngSubmit)="postProfile(usersForm.value)">
-    <div class="row" *ngFor="let item of profiler">
+    <div class="row " *ngFor="let item of profiler">
         
-        <div class="col-md-3 border-right">
+        <div class="col-md-3 border-right card sections"   style="margin-right: 40px;">
             <div *ngIf="item.image != ''">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{item.image}}"><span class="font-weight-bold">{{item.name}}</span><span class="text-black-50"></span><span> </span></div>
             </div>
@@ -45,8 +67,8 @@
               <button type="button" class="btn btn-success" >Edit Theme</button>  
               </a>
         </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
+        <div class="col-md-4 border-right card sections"  style="margin-right: 40px;">
+            <div class="">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
@@ -70,7 +92,7 @@
 
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 card sections">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><span>Edit Education</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Education</span></div><br>
                 <div class="col-md-12"><label class="labels">Education</label><input type="text"  [(ngModel)]="item.myEducation" class="form-control" name="myEducation" placeholder="experience" value="{{item.myEducation}}"></div> <br>
@@ -81,11 +103,13 @@
                 <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" [(ngModel)]="item.myExperienceDescription" class="form-control" name="myExperienceDescription" placeholder="additional details" value="{{item.myExperienceDescription}}"></div>
             </div>
         </div>
-        <input type="submit"  class="btn btn-primary profile-button"  value="submit">
-        <hr>
+       
+        <input type="submit"  class="btn btn-primary profile-button"  value="submit" style="margin-top: 40px;">
+            
     
     </div>
     </form>
+  
 </div>
-
+</body>
 

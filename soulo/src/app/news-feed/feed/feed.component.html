@@ -1,64 +1,89 @@
-<nav class="navbar navbar-light bg-white">
-        <a href="#" class="navbar-brand">Bootsbook</a>
-        <form class="form-inline">
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-addon2">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
+<nav class="navbar fixed-top navbar-expand-lg  navbar-light" style="background-color: #1D2226">
+        <a href="#" class="navbar-brand custom-nav" style="color: #E9E9EA;">PROFILER</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02" style="color: #E9E9EA;">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
+           
+          
+          </ul>
+        </div>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" >
+            <li class="nav-item active" >
+              <a style="color: #E9E9EA;" class="nav-link" href="#">Edit Profile </a>
+            </li>
+            <li class="nav-item">
+              <a style="color: #E9E9EA;" class="nav-link" href="#">Theme Edit</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #E9E9EA;" class="nav-link" href="#">Log out</a>
+              </li>
+          </ul>
+     
     </nav>
 
 
-    <div class="container-fluid gedf-wrapper">
+    <div class="container-fluid gedf-wrapper" style="background-color: black;">
         <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="h5"><img class="rounded-circle mt-5" width="150px" src="../assets/images/defualtPicture.png"></div>
-                        <div class="h7 text-muted">Fullname : Miracles Lee Cross</div>
-                        <div class="h7">Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-                            etc.
+            <div class="col-md-3" >
+                <br>
+                <br>
+                <br>
+                <div *ngIf="user != []">
+                    <div *ngFor="let item of user" >
+                        <div class="card" style="background-color:#1D2226;">
+                            <div class="card-body">
+                                <div class="h5">
+                                    <div *ngIf="item.image != ''">
+                                        <img class="rounded-circle mt-5 .mr-5" style="margin-left: 25%;" width="150px" src="{{item.image}}">
+                                    </div>
+                                    <div *ngIf="item.image == ''">
+                                        <img class="rounded-circle mt-5" width="150px" src="./assets/images/defualtPicture.png">
+                                    </div>
+                                </div>
+                                <div class="h7 text-muted text-center">{{item.name}} : {{item.surname}}</div>
+                                <div class="h7 text-center">{{item.currentOccupation}}, {{item.mySkills}},
+                                    etc.
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush" >
+                                <li class="list-group-item" style="background-color:#1D2226;">
+                                    <div class="h6 text-muted">Followers</div>
+                                    <div class="h5">0</div>
+                                </li>
+                                <li class="list-group-item" style="background-color:#1D2226;">
+                                    <div class="h6 text-muted">Following</div>
+                                    <div class="h5">0</div>
+                                </li>
+                                <li class="list-group-item" style="background-color:#1D2226;">Vestibulum at eros</li>
+                            </ul>
                         </div>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Followers</div>
-                            <div class="h5">5.2342</div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Following</div>
-                            <div class="h5">6758</div>
-                        </li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
                 </div>
             </div>
             <div class="col-md-6 gedf-main">
 
                 <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
-                    <div class="card-header">
+                <br>
+                <br>
+                <br>
+                <div class="card gedf-card sections">
+                    <div class="card-header sections">
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
-                                    a publication</a>
+                                <a class="nav-link active heading" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Start
+                                    a Post</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                                <a class="nav-link heading" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body sections">
                         <form  [formGroup]="form" (submit)="onPostCreate()">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            <div class="tab-content sections" id="myTabContent">
+                                <div class="tab-pane fade show active sections" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                     <div class="form-group">
                                         <label class="sr-only" for="message">post</label>
-                                        <textarea formControlName="Post" class="form-control" id="message" name="post" rows="3" placeholder="What are you thinking?"></textarea>
+                                        <textarea style="background-color:#1D2226;color:#E9E9EA;"  formControlName="Post" class="form-control heading" id="message" name="post" rows="3" placeholder="What are you thinking?"></textarea>
                                     </div>
 
                                 </div>
@@ -72,9 +97,10 @@
                                     <div class="py-4"></div>
                                 </div> -->
                             </div>
+                            <br>
                             <div class="btn-toolbar justify-content-between">
                                 <div class="btn-group">
-                                    <button type="submit" class="btn btn-primary">share</button>
+                                    <button style="color:#E9E9EA" type="submit" class="btn ">share</button>
                                 </div>
                             
                             </div>
@@ -85,19 +111,25 @@
 
                 <!--- \\\\\\\Post-->
                 <div *ngFor="let item of allPost">
-                <div class="card gedf-card">
+                <div class="card gedf-card sections">
                    
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                    <div class="card-header sections" >
+                        <div class="d-flex justify-content-between align-items-center ">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                                </div>
-                                <div class="ml-2">
-                                    <div class="h5 m-0" >
-                                        name
+                                    <div *ngIf="item.image != ''">
+                                        <img class="rounded-circle" width="45" src="{{item.profileImage}}" alt="">
                                     </div>
-                                    <div class="h7 text-muted">Miracles Lee Cross</div>
+                                    <div *ngIf="item.image == ''">
+                                        <img class="rounded-circle" width="45" src="./assets/images/defualtPicture.png" alt="">    
+                                    </div>
+                                </div>
+                                &nbsp;&nbsp;&nbsp;
+                                <div class="ml-2">
+                                    <div class="h5 m-0 heading" >
+                                        {{item.name}}
+                                    </div>
+                                    <div class="h7 text-muted"> {{item.surname}}</div>
                                 </div>
                             </div>
                             <div>
@@ -115,8 +147,9 @@
                             </div>
                         </div>   
                     </div>
-                    <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>{{item.postTime}}</div>
+                    <div class="card-body" style="background-color: #1b2024;" >
+                        <div style="border: 0.3px solid #383D40; padding:10px;border-radius: 10px;">
+                        <div class="text-muted h7 mb-2" > <i class="fa fa-clock-o"></i>{{item.postTime |  date:'h:mm a: dd:MMM' }}</div>
                         <a class="card-link" href="#">
                            
                         </a>
@@ -124,80 +157,56 @@
                         <p class="card-text">
                             {{item.post}}
                         </p>
+                        </div>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer sections">
                         <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                        <a href="#" class="card-link"  data-bs-toggle="collapse"  [attr.data-bs-target]="'#'+item.name+item.id"  (click)="getComments(item.id)"><i class="fa fa-comment"></i> Comment</a>
                         <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
                     </div>
+                    <div [id]="item.name+item.id"  class="collapse">
+                        <div *ngFor="let co of comments">
+                            <div *ngIf="co.profileImage != ''">
+                                <img class="rounded-circle" width="45" src="{{co.profileImage}}" alt="">
+                            </div>
+                            <div *ngIf="co.profileImage == ''">
+                                <img class="rounded-circle" width="45" src="./assets/images/defualtPicture.png" alt="">    
+                            </div>
+                            <p class="card-text" >
+                                {{co.comment}}
+                            </p>
+                        </div>
+                       <input type="text" class="form-control" placeholder="comment">
+                      </div>
                 </div>
                 </div>
                 <!-- Post /////-->
 
 
+       
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                      Link with href
+                    </a>
+                    <button class="btn btn-primary" id="flip" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      Button with data-target
+                    </button>
+                  </p>
+                  <div class="collapse " id="collapseExample">
+                    <div class="card card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                  </div>
+                  
+                  <!-- <button type="button" class="btn btn-info text-white" data-bs-toggle="collapse" data-bs-target="#linux">Click me</button>
+<div id="linux" class="collapse">
+  <h3>This is some heading</h3>
+  <p>This is the first paragraph.</p>
+  <p>This is the second paragraph.</p>
+  <p>This is the third paragraph.</p>
+</div> -->
                 <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                                </div>
-                                <div class="ml-2">
-                                    <div class="h5 m-0">@LeeCross</div>
-                                    <div class="h7 text-muted">Miracles Lee Cross</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                        <div class="h6 dropdown-header">Configuration</div>
-                                        <a class="dropdown-item" href="#">Save</a>
-                                        <a class="dropdown-item" href="#">Hide</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> 10 min ago</div>
-                        <a class="card-link" href="#">
-                            <h5 class="card-title"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit consectetur
-                                deserunt illo esse distinctio.</h5>
-                        </a>
-
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam omnis nihil, aliquam est, voluptates officiis iure soluta
-                            alias vel odit, placeat reiciendis ut libero! Quas aliquid natus cumque quae repellendus. Lorem
-                            ipsum dolor sit amet consectetur adipisicing elit. Ipsa, excepturi. Doloremque, reprehenderit!
-                            Quos in maiores, soluta doloremque molestiae reiciendis libero expedita assumenda fuga quae.
-                            Consectetur id molestias itaque facere? Hic!
-                        </p>
-                        <div>
-                            <span class="badge badge-primary">JavaScript</span>
-                            <span class="badge badge-primary">Android</span>
-                            <span class="badge badge-primary">PHP</span>
-                            <span class="badge badge-primary">Node.js</span>
-                            <span class="badge badge-primary">Ruby</span>
-                            <span class="badge badge-primary">Paython</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
-                    </div>
-                </div>
-                <!-- Post /////-->
-
-
-                <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
+                <!-- <div class="card gedf-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
@@ -244,33 +253,27 @@
                         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
                         <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
                     </div>
-                </div>
+                </div> -->
                 <!-- Post /////-->
 
 
 
             </div>
             <div class="col-md-3">
-                <div class="card gedf-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <br>
+                <br>
+                <br>
+                <div class="card gedf-card sections">
+                    <div class="card-body sections">
+                        <h5 class="card-title heading">Add to your feed</h5>
+                        <h6 class="card-subtitle mb-2  alltext">Select Accounts</h6>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                             card's content.</p>
                         <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a>
                     </div>
                 </div>
-                <div class="card gedf-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
+             
             </div>
         </div>
     </div>

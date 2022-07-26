@@ -20,5 +20,6 @@ namespace ProfileProject.Data
         public DbSet<Skills> Skills {get; set;}
         public DbSet<ThemeEdit> ThemeEdits { get; set; }
         public DbSet<Posts> Posts { get; set; }
+        public DbSet<Comments> Comments { get; set; }
     }
 }

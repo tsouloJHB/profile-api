@@ -29,9 +29,31 @@ public class PostController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<Posts>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<Posts>), StatusCodes.Status404NotFound)]
-    public IEnumerable<Posts> GetPosts()
+    public async Task<IEnumerable<PostGetDto>> GetPosts()
     {
-        return _posts.GetAllPost().Result;
+        List<Posts> post = _posts.GetAllPost().Result;
+        List<PostGetDto> postGetDtos = new List<PostGetDto>();
+        foreach (var item in post)
+        {
+            var user = await _context.users.FindAsync(item.UserId);
+            if (user != null)
+            {
+                PostGetDto postGetDto = new PostGetDto()
+                {
+                    name = user.name,
+                    surname = user.surname,
+                    email = user.email,
+                    ProfileImage = user.image,
+                    Post = item.Post,
+                    PostTime = item.PostTime,
+                    Image = user.image,
+                };
+                postGetDtos.Add(postGetDto);
+            }
+
+          
+        }
+        return postGetDtos;
     }
     
     [HttpPost,Authorize]
@@ -49,6 +71,7 @@ public class PostController : ControllerBase
         post.UserId = id;
         post.Image = "";
         post.Post = postDto.Post;
+        post.PostTime = DateTime.UtcNow;
         await _posts.CreatePost(post);
         return CreatedAtAction(nameof(GetById), post);
     }

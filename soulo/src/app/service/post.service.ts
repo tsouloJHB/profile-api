@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { map } from 'rxjs';
+import { profile } from '../model/profile';
 
 @Injectable({providedIn:"root"})
 export class PostService{
@@ -44,5 +45,24 @@ export class PostService{
           return products;
         })
       );
+    }
+
+    getUser(){
+     
+      return this.http.get<{[key: string]: profile}>(`https://localhost:7096/api/Profile`,{withCredentials:true,
+      headers: new HttpHeaders({
+      'Authorization': 'bearer '+ localStorage.getItem("token")
+    }),
+  }).pipe(
+      map((data)=>{
+        const products = [];
+        for(const key in data){
+          if(data.hasOwnProperty(key)){
+            products.push({...data[key],id:key})
+          }
+        }
+        return products;
+      })
+    );
     }
 }

@@ -1,0 +1,23 @@
+*{
+    color:#BCBDBE;
+    
+}
+.sections{
+    background-color:#1D2226;
+}
+.heading{
+    color: #eeeeee;
+}
+.alltext{
+    color:#BCBDBE;
+}
+body {
+    background-color: black ;
+    color:#BCBDBE;
+}
+input{
+    background-color:#242424; 
+}
+textarea{
+    background-color:#242424; 
+  }
